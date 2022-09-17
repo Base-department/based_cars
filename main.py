@@ -1,9 +1,11 @@
+#import uvicorn
+
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.database import init_db, get_session
-from models import Car
-from endpoints import crud
+from app.core.database import init_db, get_session
+from app.models import Car
+from app.endpoints import crud
 
 app = FastAPI()
 
@@ -59,3 +61,6 @@ async def delete_car(car: Car, session: AsyncSession = Depends(get_session)):
     if db_car is None:
         raise HTTPException(status_code=404, detail="NOT FOUND")
     return db_car
+
+#if __name__ == "__main__":
+    #uvicorn.run("main:app", port=8000, host="0.0.0.0", reload=True)

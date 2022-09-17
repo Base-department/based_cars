@@ -1,7 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
-from project.app.models import Car
+from app.models import Car
 
 
 async def get_car(session: AsyncSession, car_id: str):

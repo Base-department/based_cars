@@ -3,10 +3,10 @@ version: '3.8'
 services:
 
   web:
-    build: project
-    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    build: .
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
     volumes:
-      - ./project:/usr/src/app
+      - ./:/usr/src/app
     ports:
       - "8000:8000"
     environment:

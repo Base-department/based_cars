@@ -45,6 +45,8 @@ async def post_car(car: Car, session: AsyncSession = Depends(get_session)):
         db_car = await crud.create_car(session, car)
     if db_car is None:
         raise HTTPException(status_code=503, detail="SERVICE UNAVAILABLE")
+    else:
+        return db_car
 
 
 @app.put("/car", response_model=Car)

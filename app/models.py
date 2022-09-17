@@ -10,10 +10,7 @@ class CarBase(SQLModel):
 
 
 class Car(CarBase, table=True, extend_existing=True):
-    __tablename__ = "Car"
-    __table_args__ = {'extend_existing': True}
-
-    id: str = Field(default=None, primary_key=True)
+    id: str = Field(primary_key=True)
 
 
 class CarCreate(CarBase):

@@ -29,6 +29,8 @@ async def get_car(id: str, session: AsyncSession = Depends(get_session)):
 @app.get("/car", response_model=list[Car])
 async def get_cars(page: int = 0, per_page: int = 10, session: AsyncSession = Depends(get_session)):
     cars = await crud.get_cars(session, page=page, per_page=per_page)
+    if cars is None:
+        raise HTTPException(status_code=404, detail="NOT FOUND")
     return cars
 
 
@@ -38,7 +40,9 @@ async def post_car(car: Car, session: AsyncSession = Depends(get_session)):
     if db_car:
         return await crud.update_car(session, Car(id=car.id))
     else:
-        return await crud.create_car(session, car)
+        db_car = await crud.create_car(session, car)
+    if db_car is None:
+        raise HTTPException(status_code=503, detail="SERVICE UNAVAILABLE")
 
 
 @app.put("/car", response_model=Car)

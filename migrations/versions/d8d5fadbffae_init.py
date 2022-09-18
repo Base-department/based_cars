@@ -21,7 +21,7 @@ def upgrade() -> None:
         'car',
         sa.Column('id', sa.String(6), primary_key=True),
         sa.Column('model', sa.String, nullable=False),
-        sa.Column('owner', sa.Integer, nullable=False),
+        sa.Column('owner', sa.String, nullable=False),
         sa.Column('mileage', sa.Integer, nullable=False),
     )
 

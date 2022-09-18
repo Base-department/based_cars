@@ -5,7 +5,7 @@ from sqlmodel import SQLModel, Field
 
 class CarBase(SQLModel):
     model: Optional[str] = None
-    owner: Optional[int] = None
+    owner: Optional[str] = None
     mileage: Optional[int] = None
 
 

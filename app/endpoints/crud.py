@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func
 
 from app.models import Car
 
@@ -14,12 +14,14 @@ async def get_car(session: AsyncSession, car_id: str):
         return None
 
 
-async def get_cars(session: AsyncSession, page: int = 0, per_page: int = 10):
+async def get_cars(session: AsyncSession, page: int = 1, per_page: int = 10):
     try:
-        q = select(Car).offset(per_page * page).limit(per_page)
+        q = select(Car).offset(per_page * (page - 1)).limit(per_page)
+        q_count = func.count(Car.id)
         result = await session.execute(q)
+        total_count = await session.execute(q_count)
         result = [res[0] for res in result.all()]
-        return result
+        return result, total_count.first()[0]
     except:
         return None
 
@@ -34,9 +36,9 @@ async def create_car(session: AsyncSession, car: Car):
         return None
 
 
-async def delete_car(session: AsyncSession, car: Car):
+async def delete_car(session: AsyncSession, id: str):
     try:
-        q = select(Car).filter(Car.id == car.id)
+        q = select(Car).filter(Car.id == id)
         db_car = await session.execute(q)
         db_car = db_car.first()[0]
         if db_car:

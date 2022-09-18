@@ -1,5 +1,3 @@
-#import uvicorn
-
 from fastapi import FastAPI, Depends, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -76,6 +74,7 @@ async def update_car(car: Car, session: AsyncSession = Depends(get_session)):
 @app.delete("/car/{id}", response_model=Car)
 async def delete_car(id: str, session: AsyncSession = Depends(get_session)):
     db_car = await crud.delete_car(session, id)
+
     if db_car is None:
         raise HTTPException(status_code=404, detail="NOT FOUND")
     return db_car

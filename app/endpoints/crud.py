@@ -19,9 +19,6 @@ async def get_cars(session: AsyncSession, page: int = 0, per_page: int = 10):
         q = select(Car).offset(per_page * page).limit(per_page)
         result = await session.execute(q)
         result = [res[0] for res in result.all()]
-        print("--------------------------------------------")
-        print(result)
-        print("--------------------------------------------")
         return result
     except:
         return None
@@ -45,7 +42,7 @@ async def delete_car(session: AsyncSession, car: Car):
         if db_car:
             await session.delete(db_car)
             await session.commit()
-        return car
+        return db_car
     except:
         return None
 

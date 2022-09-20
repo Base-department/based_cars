@@ -1,8 +1,8 @@
 # CRUD operations implementation
+from app.models import Car
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
-from app.models import Car
 
 
 async def get_car(session: AsyncSession, car_id: str):

@@ -1,10 +1,12 @@
-from fastapi import FastAPI, Depends, HTTPException, Response
-from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.ext.asyncio import AsyncSession
-
 from app.core.database import init_db, get_session
 from app.models import Car
 from app.endpoints import crud
+
+from fastapi import FastAPI, Depends, HTTPException, Response
+from fastapi.middleware.cors import CORSMiddleware
+
+from sqlalchemy.ext.asyncio import AsyncSession
+
 
 app = FastAPI()
 
@@ -144,4 +146,4 @@ async def delete_car(id: str, session: AsyncSession = Depends(get_session)):
     return db_car
 
 # if __name__ == "__main__":
-# uvicorn.run("main:app", port=8000, host="0.0.0.0", reload=True)
+    # uvicorn.run("main:app", port=8000, host="0.0.0.0", reload=True)

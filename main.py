@@ -144,6 +144,3 @@ async def delete_car(id: str, session: AsyncSession = Depends(get_session)):
     if db_car is None:
         raise HTTPException(status_code=404, detail="NOT FOUND")
     return db_car
-
-# if __name__ == "__main__":
-    # uvicorn.run("main:app", port=8000, host="0.0.0.0", reload=True)

@@ -1,10 +1,20 @@
+# CRUD operations implementation
+from app.models import Car
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
-from app.models import Car
-
 
 async def get_car(session: AsyncSession, car_id: str):
+    """Gets information about the car by the given id from the database.
+
+    Args:
+      session: The current session.
+      car_id: The car's number.
+
+    Returns:
+      Info about the car with the given id.
+    """
     try:
         q = select(Car).filter(Car.id == car_id)
         result = await session.execute(q)
@@ -15,6 +25,16 @@ async def get_car(session: AsyncSession, car_id: str):
 
 
 async def get_cars(session: AsyncSession, page: int = 1, per_page: int = 10):
+    """Gets information about all cars from the database, taking into account pagination from query-parameters.
+
+    Args:
+      session: The current session.
+      page: The pagination parameter.
+      per_page: The pagination parameter.
+
+    Returns:
+      Info about the cars with the given parameters.
+    """
     try:
         q = select(Car).offset(per_page * (page - 1)).limit(per_page)
         q_count = func.count(Car.id)
@@ -27,6 +47,15 @@ async def get_cars(session: AsyncSession, page: int = 1, per_page: int = 10):
 
 
 async def create_car(session: AsyncSession, car: Car):
+    """Posts the car in the database.
+
+    Args:
+      session: The current session.
+      car: The object to POST.
+
+    Returns:
+      Info about the car to be posted.
+    """
     try:
         db_car = Car(id=car.id, model=car.model, owner=car.owner, mileage=car.mileage)
         session.add(db_car)
@@ -37,6 +66,15 @@ async def create_car(session: AsyncSession, car: Car):
 
 
 async def delete_car(session: AsyncSession, id: str):
+    """Deletes the car by the given id in the database.
+
+    Args:
+      session: The current session.
+      id: The car's id to DELETE.
+
+    Returns:
+      Info about the car to be deleted.
+    """
     try:
         q = select(Car).filter(Car.id == id)
         db_car = await session.execute(q)
@@ -50,6 +88,15 @@ async def delete_car(session: AsyncSession, id: str):
 
 
 async def update_car(session: AsyncSession, car: Car):
+    """Updates the car in the database.
+
+    Args:
+      session: The current session.
+      car: The object to UPDATE.
+
+    Returns:
+      Info about the car to be updated.
+    """
     try:
         q = select(Car).filter(Car.id == car.id)
         db_car = await session.execute(q)

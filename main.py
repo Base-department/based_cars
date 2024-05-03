@@ -25,9 +25,9 @@ app.add_middleware(
 
 
 @app.on_event("startup")
-def on_startup():
+async def on_startup():
     """Database initialization before the application starts up"""
-    init_db()
+    await init_db()
 
 
 @app.get("/")
